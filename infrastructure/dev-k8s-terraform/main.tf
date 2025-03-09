@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 variable "sec-gr-k8s" {
-  default = "petclinic-k8s-sec-group"
+  default = "o-petclinic-k8s-sec-group"
 }
 
 data "aws_vpc" "name" {
@@ -55,7 +55,7 @@ resource "aws_security_group" "k8s-sec-gr" {
 
 
 resource "aws_iam_role" "petclinic-master-server-s3-role" {
-  name               = "petclinic-master-server-role"
+  name               = "o-petclinic-master-server-role"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -80,7 +80,7 @@ resource "aws_iam_role_policy_attachment" "petclinic_s3_policy" {
 }
 
 resource "aws_iam_instance_profile" "petclinic-master-server-profile" {
-  name = "petclinic-master-server-profile"
+  name = "o-petclinic-master-server-profile"
   role = aws_iam_role.petclinic-master-server-s3-role.name
 }
 
@@ -98,6 +98,7 @@ resource "aws_instance" "kube-master" {
     Role = "master"
     Id = "1"
     environment = "dev"
+    user = "oliver"
   }
 }
 
@@ -114,6 +115,7 @@ resource "aws_instance" "worker-1" {
     Role = "worker"
     Id = "1"
     environment = "dev"
+    user = "oliver"
   }
 }
 
@@ -130,6 +132,7 @@ resource "aws_instance" "worker-2" {
     Role = "worker"
     Id = "2"
     environment = "dev"
+    user = "oliver"
   }
 }
 
